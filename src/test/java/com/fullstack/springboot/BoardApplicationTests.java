@@ -12,10 +12,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.fullstack.springboot.dto.BoardDTO;
 import com.fullstack.springboot.dto.PageRequestDTO;
 import com.fullstack.springboot.dto.PageResultDTO;
+import com.fullstack.springboot.dto.ReplyDTO;
 import com.fullstack.springboot.entity.Board;
 import com.fullstack.springboot.entity.Member;
 import com.fullstack.springboot.entity.Reply;
@@ -23,8 +25,8 @@ import com.fullstack.springboot.repository.BoardRepository;
 import com.fullstack.springboot.repository.MemberRepository;
 import com.fullstack.springboot.repository.ReplyRepository;
 import com.fullstack.springboot.service.BoardService;
+import com.fullstack.springboot.service.ReplyService;
 
-import jakarta.transaction.Transactional;
 
 @SpringBootTest
 class BoardApplicationTests {
@@ -40,6 +42,9 @@ class BoardApplicationTests {
 	
 	@Autowired
 	private BoardService boardService;
+	
+	@Autowired
+	private ReplyService replyService;
 	
 	@Test
 //	void insertMembers() {
@@ -202,14 +207,49 @@ class BoardApplicationTests {
 //	}
 	
 	//글 수정 요청 테스트
-	void testUpdate() {
-		BoardDTO dto = BoardDTO.builder()
+//	void testUpdate() {
+//		BoardDTO dto = BoardDTO.builder()
+//				.bno(1L)
+//				.content("바뀌 내용")
+//				.title("바뀐 제목")
+//				.writerEmail("user1@aaa.com")
+//				.build();
+//		
+//		boardService.modify(dto);
+//	}
+	
+	//쿼리 DSL 초기화 테스트
+//	@Transactional
+//	void testSearch1() {
+//		boardRepository.search1();
+//	}
+	
+	//검색된 페이지 리턴 테스트
+//	@Transactional
+//	void searchKeyword() {
+//		Pageable pageable = PageRequest.of(0, 10, Sort.by("bno").descending().and(Sort.by("title").ascending()));
+//		
+//		Page<Object[]> result = boardRepository.searchPage("t", "l", pageable);
+//		result.forEach(t -> System.out.println(t));
+//	}
+	
+//	@Transactional
+//	void replyTest() {
+//		Board board = Board.builder().bno(1L).build();
+//		
+//		List<Reply> list = replyRepository.getListRepliesByBoardOrderByRno(board);
+//		list.forEach(t -> {
+//			System.out.println(t);
+//		});
+//	}
+	
+	void replyRegisterTest() {
+		ReplyDTO dto = ReplyDTO.builder()
+				.text("hi")
+				.replyer("guest111")
 				.bno(1L)
-				.content("바뀌 내용")
-				.title("바뀐 제목")
-				.writerEmail("user1@aaa.com")
 				.build();
 		
-		boardService.modify(dto);
+		replyService.register(dto);
 	}
 }

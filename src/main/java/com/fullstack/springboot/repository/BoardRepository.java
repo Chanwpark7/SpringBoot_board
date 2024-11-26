@@ -12,8 +12,12 @@ import org.springframework.data.repository.query.Param;
 import com.fullstack.springboot.dto.BoardDTO;
 import com.fullstack.springboot.entity.Board;
 import com.fullstack.springboot.entity.Reply;
-
-public interface BoardRepository extends JpaRepository<Board, Long> {
+import com.fullstack.springboot.repository.search.SearchBoardRepository;
+/*
+ * QueryDSL을 사용할때, QueryDSL을 사용하는 인터페이스와 구현체를 생성한 후, 도메인 레포지토리(Board, Reply, Member 등)
+ * 에서는 SearchBoardRepository를 명시적으로 상속받음.
+ */
+public interface BoardRepository extends JpaRepository<Board, Long>, SearchBoardRepository {
 
 	//JPQL : JAVA Persistent Query Language
 	/*

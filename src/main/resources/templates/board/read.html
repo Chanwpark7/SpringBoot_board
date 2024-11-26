@@ -49,6 +49,31 @@
 			</a>
 		</span>
 		
+		<!-- 댓글 수 확인 버튼 생성 -->
+		<div>
+			<div class="mt-4">
+				<h5>
+					<span class="badge bg-secondary replyCount">
+						Reply Count[[${dto.replyCount}]]
+					</span>
+				</h5>
+			</div>
+			<div class="list-group replyList">
+			</div>
+		</div>
+		
+		<script th:inline="javascript">
+			$(document).ready(function(){
+				var bno = [[${dto.bno}]];
+				var listGroup = $(".replyList");
+				
+				$(".replyCount").click(function(){
+					$.getJSON('/replies/board/'+bno, function(arr){
+						console.log(arr);
+					})
+				})
+			})
+		</script>
 		
 	</th:block>
 </th:block>

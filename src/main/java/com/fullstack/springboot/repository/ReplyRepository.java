@@ -1,10 +1,13 @@
 package com.fullstack.springboot.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.fullstack.springboot.entity.Board;
 import com.fullstack.springboot.entity.Reply;
 
 public interface ReplyRepository extends JpaRepository<Reply, Long> {
@@ -13,4 +16,7 @@ public interface ReplyRepository extends JpaRepository<Reply, Long> {
 	@Modifying//Select 가 아닌 DML은 이 어노테이션 선언해야 함.
 	@Query("delete from Reply r where r.board.bno = :bno")
 	void deleteByBno(@Param("bno") Long bno);
+	
+	//게시물의 댓글 리스트 리턴하도록 선언
+	List<Reply> getListRepliesByBoardOrderByRno(Board board);
 }

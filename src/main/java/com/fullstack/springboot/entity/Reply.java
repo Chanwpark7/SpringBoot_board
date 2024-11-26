@@ -2,6 +2,7 @@ package com.fullstack.springboot.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,6 +32,6 @@ public class Reply extends BaseEntity{
 	@Column(length = 50, nullable = false)
 	private String replyer;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Board board;
 }
