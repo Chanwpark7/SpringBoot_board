@@ -5,17 +5,25 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fullstack.springboot.dto.ReplyDTO;
 import com.fullstack.springboot.entity.Board;
+import com.fullstack.springboot.repository.ReplyRepository;
 import com.fullstack.springboot.service.ReplyService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PutMapping;
+
+
 
 /*
  * RESTful server 는 선언 해야 함.
@@ -26,6 +34,7 @@ import lombok.extern.log4j.Log4j2;
 @RequiredArgsConstructor
 public class ReplyController {
 
+	private final ReplyRepository replyRepository;
 	private final ReplyService replyService;
 	
 	/*
@@ -46,5 +55,28 @@ public class ReplyController {
 		List<ReplyDTO> result = replyService.getList(Board.builder().bno(bno).build());
 		
 		return ResponseEntity.ok().body(result);
+	}
+	
+	//서버에서는 JSON으로 파라미터를 받을 땐 메소드 파라미터로 @RequestBody 를 넣고 매핑되는 DTO 를 선언하면 
+	@PostMapping("")
+	public ResponseEntity<Long> insertReply(@RequestBody ReplyDTO replyDTO) {
+		replyService.register(replyDTO);
+		
+		return ResponseEntity.ok().body(replyDTO.getBno());
+	}
+	
+	@DeleteMapping("/{rno}")
+	public ResponseEntity<String> remove(@PathVariable("rno") Long rno){
+		replyService.remove(rno);
+		
+		return ResponseEntity.ok("success");
+	}
+	
+	
+	@PutMapping("/{rno}")
+	public ResponseEntity<String> modify(@PathVariable("rno") Long rno, @RequestBody ReplyDTO replyDTO) {
+		replyService.modify(replyDTO);
+		
+		return ResponseEntity.ok().body("success");
 	}
 }
